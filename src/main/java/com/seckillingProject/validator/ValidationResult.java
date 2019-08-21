@@ -2,14 +2,16 @@ package com.seckillingProject.validator;
 
 import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.Validation;
+import java.util.HashMap;
 import java.util.Map;
 
-public class ValidationResult {
+public class ValidationResult extends Validation {
     //verify result
-    private boolean hasErrors;
+    private boolean hasErrors = false;
 
     //error map
-    private Map<String,String> errorMsgMap;
+    private Map<String,String> errorMsgMap = new HashMap<>();
 
 
 

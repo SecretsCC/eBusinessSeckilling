@@ -1,14 +1,29 @@
 package com.seckillingProject.service.model;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class UserModel {
     private Integer id;
+    @NotBlank(message = "user name can not be empty")
     private String name;
+
+    @NotNull(message="gender can not be empty")
     private Byte gender;
+
+    @NotNull(message="age can not be empty")
+    @Min(value=0,message="age must larger than 0")
+    @Max(value = 150,message="age must smaller than 150")
     private Integer age;
+
+    @NotBlank(message = "phone number can not be empty")
     private String telephone;
     private String registerMode;
     private String thirdPartyId;
 
+    @NotBlank(message = "password can not be empty")
     private String encryptPassWord;
 
     public String getEncryptPassWord() {
