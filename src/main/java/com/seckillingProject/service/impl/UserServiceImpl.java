@@ -11,8 +11,11 @@ import com.seckillingProject.service.model.UserModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.DuplicateFormatFlagsException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -52,14 +55,35 @@ public class UserServiceImpl implements UserService {
 
         //implement model -> dataobject
         UserDO userDO = convertFromModel(userModel);
-        userDOMapper.insertSelective(userDO);
+        try{
+            userDOMapper.insertSelective(userDO);
+        }catch (DuplicateKeyException ex){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"duplicate phone number");
+        }
+
+
+        userModel.setId(userDO.getId());
 
         UserPasswordDO userPasswordDO = convertPasswordFromModel(userModel);
         userPasswordDOMapper.insertSelective(userPasswordDO);
 
         return;
 
+    }
 
+    @Override
+    public UserModel validateLogin(String telephone, String encryptPassword) throws BusinessException {
+        //through telephone number get user information
+        UserDO userDO = userDOMapper.selectByTelephone(telephone);
+        if(userDO == null) {
+            throw new BusinessException(EmBusinessError.USER_LOGIN_FAIL);
+        }
+        UserPasswordDO userPasswordDO = userPasswordDOMapper.selectByUserId(userDO.getId());
+        UserModel userModel = convertFromDataObject(userDO,userPasswordDO);
+
+        //compare user information with login information
+        StringUtils.equals(encryptPassword,userModel.getEncryptPassWord());
+        return userModel;
     }
 
     private UserPasswordDO convertPasswordFromModel(UserModel userModel){
