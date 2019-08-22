@@ -13,8 +13,6 @@ public class ValidationResult extends Validation {
     //error map
     private Map<String,String> errorMsgMap = new HashMap<>();
 
-
-
     public boolean isHasErrors() {
         return hasErrors;
     }
