@@ -70,6 +70,7 @@ public class ItemServiceImpl implements ItemService{
         itemDOMapper.insertSelective(itemDO);
         itemModel.setId(itemDO.getId());
 
+
         ItemStockDO itemStockDO = this.convertItemStockDOFromItemModel(itemModel);
         itemStockDOMapper.insertSelective(itemStockDO);
 
