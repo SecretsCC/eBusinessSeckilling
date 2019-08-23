@@ -8,6 +8,9 @@ public enum EmBusinessError implements CommonError {
     //Error code head with 1000 means user information not right
     USER_NOT_EXIST(20001,"USER NOT FOUND"),
     USER_LOGIN_FAIL(20002,"TELEPHONE OR PASSWORD NOT CORRECT"),
+    USER_NOT_LOGIN(20003,"USER NOT LOGIN"),
+
+    STOCK_NOT_ENOUGH(30001,"STOCK NOT ENOUGH");
     ;
 
     private EmBusinessError(int errCode,String errMsg){

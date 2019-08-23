@@ -1,6 +1,7 @@
 package com.seckillingProject.dao;
 
 import com.seckillingProject.dataobject.ItemDO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -54,4 +55,5 @@ public interface ItemDOMapper {
      * @mbg.generated Thu Aug 22 01:36:18 CST 2019
      */
     int updateByPrimaryKey(ItemDO record);
+    int increaseSales(@Param("id")Integer id,@Param("amount")Integer amount);
 }
