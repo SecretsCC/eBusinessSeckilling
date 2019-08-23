@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
-    public OrderModel createOrder(Integer userId, Integer itemId, Integer amount) throws BusinessException {
+    public OrderModel createOrder(Integer userId, Integer itemId, Integer promoId, Integer amount) throws BusinessException {
         //verify order status
         //check whether a user exists
         //check whether a Item exists
@@ -57,6 +57,16 @@ public class OrderServiceImpl implements OrderService{
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"order number illegal ");
         }
 
+        //activity check
+        if(promoId != null){
+            //(1)check if active item is available
+            if(promoId.intValue() != itemModel.getPromoModel().getId()){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"activity information wrong");
+            }else if(itemModel.getPromoModel().getStatus().intValue() != 2){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"activity not start");
+            }
+        }
+
         //decrease the stock once order have been set
         boolean result = itemService.decreaseStock(itemId,amount);
         if(!result){
@@ -68,7 +78,12 @@ public class OrderServiceImpl implements OrderService{
         orderModel.setUserId(userId);
         orderModel.setItemId(itemId);
         orderModel.setAmount(amount);
-        orderModel.setItemPrice(itemModel.getPrice());
+        if(promoId != null){
+            orderModel.setItemPrice(itemModel.getPromoModel().getPromoItemPrice());
+        }else{
+            orderModel.setItemPrice(itemModel.getPrice());
+        }
+        orderModel.setPromoId(promoId);
         orderModel.setOrderPrice(itemModel.getPrice().multiply(new BigDecimal(amount)));
 
         orderModel.setId(generateOrderNo());

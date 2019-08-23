@@ -2,12 +2,15 @@ package com.seckillingProject.service.impl;
 
 import com.seckillingProject.dao.ItemDOMapper;
 import com.seckillingProject.dao.ItemStockDOMapper;
+import com.seckillingProject.dao.PromoDOMapper;
 import com.seckillingProject.dataobject.ItemDO;
 import com.seckillingProject.dataobject.ItemStockDO;
 import com.seckillingProject.error.BusinessException;
 import com.seckillingProject.error.EmBusinessError;
 import com.seckillingProject.service.ItemService;
+import com.seckillingProject.service.PromoService;
 import com.seckillingProject.service.model.ItemModel;
+import com.seckillingProject.service.model.PromoModel;
 import com.seckillingProject.validator.ValidationResult;
 import com.seckillingProject.validator.ValidatorImpl;
 import org.springframework.beans.BeanUtils;
@@ -30,6 +33,9 @@ public class ItemServiceImpl implements ItemService{
 
     @Autowired
     private ItemStockDOMapper itemStockDOMapper;
+
+    @Autowired
+    private PromoService promoService;
 
     private ItemDO convertItemDOFromItemModel(ItemModel itemModel){
        if(itemModel == null){
@@ -103,6 +109,12 @@ public class ItemServiceImpl implements ItemService{
 
         //transfer data object to model
         ItemModel itemModel = convertModelFromDataObject(itemDO,itemStockDO);
+
+        //check activity
+        PromoModel promoModel = promoService.getPromoByItemId(itemModel.getId());
+        if(promoModel != null && promoModel.getStatus().intValue() != 3){
+            itemModel.setPromoModel(promoModel);
+        }
 
         return itemModel;
     }

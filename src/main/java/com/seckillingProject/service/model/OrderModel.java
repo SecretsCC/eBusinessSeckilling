@@ -12,15 +12,25 @@ public class OrderModel {
     //item id
     private Integer itemId;
 
-    //unit price
+    //if not empty, promo item exist
+    private Integer promoId;
+
+    //unit price,if pormoId not empty, price is promo item price
     private BigDecimal itemPrice;
 
     //count
     private Integer amount;
 
-    //how much
+    //how much, same to itemPrice
     private BigDecimal orderPrice;
 
+    public Integer getPromoId() {
+        return promoId;
+    }
+
+    public void setPromoId(Integer promoId) {
+        this.promoId = promoId;
+    }
 
     public BigDecimal getItemPrice() {
         return itemPrice;

@@ -27,6 +27,15 @@ public class OrderDO {
      * @mbg.generated Fri Aug 23 00:28:36 CST 2019
      */
     private Integer itemId;
+    private Integer promoId;
+
+    public Integer getPromoId() {
+        return promoId;
+    }
+
+    public void setPromoId(Integer promoId) {
+        this.promoId = promoId;
+    }
 
     /**
      *

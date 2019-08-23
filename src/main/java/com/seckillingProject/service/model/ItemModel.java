@@ -25,6 +25,18 @@ public class ItemModel {
     @NotBlank(message = "imgUrl can not be empty")
     private String imgUrl;
 
+    // polymerization model
+    //if promoModel exist, have activity
+    private PromoModel promoModel;
+
+    public PromoModel getPromoModel() {
+        return promoModel;
+    }
+
+    public void setPromoModel(PromoModel promoModel) {
+        this.promoModel = promoModel;
+    }
+
     public Integer getId() {
         return id;
     }

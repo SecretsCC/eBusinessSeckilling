@@ -8,13 +8,34 @@ import java.math.BigDecimal;
 public class PromoModel {
     private Integer id;
 
+    //active status, 1 means not start, 2 activiting,3 close
+    private Integer status;
+
     private String promoName;
 
     private DateTime startDate;
 
+    private DateTime endDate;
+
     private Integer itemId;
 
     private BigDecimal promoItemPrice;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public DateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(DateTime endDate) {
+        this.endDate = endDate;
+    }
 
     public Integer getId() {
         return id;
